@@ -23,9 +23,9 @@ class User:
             return self._email
         return None  # Explicitly returns None to indicate no access
 
-    def set_email(self, newEmail):
-        if "@" in newEmail:
-            self._email = newEmail
+    def set_email(self, new_email):
+        if "@" in new_email:
+            self._email = new_email
 
 user1 = User("amonra", "amonra@example.com", "pwd123", True)
 print(user1._email)  # NAUGHTY!! As responsible Python devs, we are expected to do this:
@@ -34,7 +34,7 @@ print(user1.get_email())  # Controlled access
 user1.set_email("amonra@outlook.com")
 print(user1.get_email())
 
-print(user1.__password)  # Cannot be accessed
+# print(user1.__password)  # Cannot be accessed
 
 """
 Access Modifiers in Python
@@ -61,3 +61,29 @@ Developers are trusted to respect the convention of not accessing underscore-pre
 Access is not prevented, as Python assumes that developers will act responsibly and won't misuse or 
 access "protected" members unless absolutely necessary.
 """
+
+
+# 2. Properties
+
+class User2:
+    def __init__(self, username, email, password, isAdmin=False):
+        self.username = username
+        self._email = email
+        self.__password = password
+        self.isAdmin = isAdmin
+
+    # Getter property
+    @property
+    def email(self):
+        print(f"Email accessed at {datetime.now()}")
+        return self._email
+    
+    @email.setter
+    def email(self, new_email):
+        if "@" in new_email:
+            print(f"Email updated at {datetime.now()}")
+            self._email = new_email
+    
+user2 = User2("aurora", "aurora@example.com", "pwd123", True)
+user2.email = "aurora_update@example.com"
+print(user2.email)
